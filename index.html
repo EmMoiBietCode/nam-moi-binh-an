@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌸 Thư Mùa Xuân 🌸</title>
+<title>chúc mừng năm mới</title>
 
 <style>
 *{
@@ -85,44 +85,48 @@ body{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,0.45);
+  backdrop-filter:blur(6px);
   display:none;
   justify-content:center;
   align-items:center;
 }
 
+/* ===== KHUNG THƯ ĐẸP + ANIMATION ===== */
 .popup-content{
   width:340px;
-  padding:28px;
-  border-radius:22px;
-  background:rgba(255,255,255,0.92);
-  animation:popupIn .4s ease;
+  padding:30px 26px;
+  border-radius:24px;
+  background:rgba(255,255,255,0.96);
   text-align:center;
+  box-shadow:
+    0 20px 50px rgba(210,108,139,0.35),
+    inset 0 0 20px rgba(255,200,220,0.4);
+  animation:letterOpen .6s cubic-bezier(.2,.8,.2,1);
 }
 
-@keyframes popupIn{
-  from{ opacity:0; transform:scale(0.9); }
-  to{ opacity:1; transform:scale(1); }
+@keyframes letterOpen{
+  0%{
+    transform:scale(0.6);
+    opacity:0;
+    filter:blur(8px);
+  }
+  70%{
+    transform:scale(1.05);
+    opacity:1;
+    filter:blur(0);
+  }
+  100%{
+    transform:scale(1);
+  }
 }
 
-/* ===== NỘI DUNG THƯ ===== */
+/* ===== NỘI DUNG CHỮ ĐÁNH MÁY ===== */
 .message{
   font-size:16px;
-  line-height:1.7;
+  line-height:1.8;
   color:#555;
-  animation:glow 2.5s ease-in-out infinite;
-}
-
-@keyframes glow{
-  0%,100%{ text-shadow:0 0 0 rgba(210,108,139,0); }
-  50%{ text-shadow:0 0 10px rgba(210,108,139,0.35); }
-}
-
-/* ===== ĐIỀU KHIỂN NHẠC ===== */
-.music-control{
-  margin-top:18px;
-  font-size:14px;
-  color:#d26c8b;
-  cursor:pointer;
+  min-height:120px;
+  text-shadow:0 0 10px rgba(210,108,139,0.25);
 }
 </style>
 </head>
@@ -145,22 +149,14 @@ for(let i=0;i<45;i++){
 
 <!-- ===== TRUNG TÂM ===== -->
 <div class="center">
-  <div class="envelope">💌</div>
-  <div class="title">🌸 Thư Mùa Xuân 🌸</div>
+  <div class="envelope">✉️</div>>
   <button class="open-btn" onclick="openLetter()">Mở thư</button>
 </div>
 
 <!-- ===== POPUP ===== -->
 <div class="popup" id="popup" onclick="closeLetter()">
   <div class="popup-content" onclick="event.stopPropagation()">
-    <div class="message">
-      Chúc các bạn năm mới nhiều sức khỏe, học tập tốt, tinh thần thoải mái
-      và đạt được những mục tiêu mình mong muốn trong năm 2026 🎉
-    </div>
-
-    <div class="music-control" onclick="toggleMusic()">
-      🎵 Bật / Tắt nhạc
-    </div>
+    <div class="message" id="text"></div>
   </div>
 </div>
 
@@ -172,20 +168,35 @@ for(let i=0;i<45;i++){
 <script>
 const popup = document.getElementById('popup');
 const music = document.getElementById('music');
+const textEl = document.getElementById('text');
+
+const content = `Chúc các bạn năm mới nhiều sức khỏe,
+học tập tốt, tinh thần thoải mái
+và đạt được những mục tiêu mình
+mong muốn trong năm 2026 🎉`;
+
+let i = 0;
+
+function typeText(){
+  if(i < content.length){
+    textEl.innerHTML += content.charAt(i);
+    i++;
+    setTimeout(typeText, 35);
+  }
+}
 
 function openLetter(){
   popup.style.display='flex';
+  textEl.innerHTML='';
+  i = 0;
+  typeText();
+
   music.volume = 0.6;
   music.play();
 }
 
 function closeLetter(){
   popup.style.display='none';
-}
-
-function toggleMusic(){
-  if(music.paused) music.play();
-  else music.pause();
 }
 </script>
 
