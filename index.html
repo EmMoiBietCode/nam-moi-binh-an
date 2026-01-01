@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Lá Thư Mùa Xuân 2026</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body{
+  height:100vh;
+  overflow:hidden;
+  background: linear-gradient(180deg, #fce4ec, #fdeff9, #e0f7fa);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* ===== HOA ANH ĐÀO ===== */
+.sakura{
+  position:fixed;
+  top:-10%;
+  font-size:18px;
+  animation: fall linear infinite;
+  pointer-events:none;
+}
+
+@keyframes fall{
+  0%{
+    transform:translateY(0) rotate(0deg);
+    opacity:1;
+  }
+  100%{
+    transform:translateY(110vh) rotate(360deg);
+    opacity:0.7;
+  }
+}
+
+/* ===== LÁ THƯ ===== */
+.letter{
+  width:320px;
+  height:220px;
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.2);
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+}
+
+.letter::before{
+  content:"";
+  position:absolute;
+  top:-1px;
+  width:0;
+  height:0;
+  border-left:160px solid transparent;
+  border-right:160px solid transparent;
+  border-top:110px solid #f8bbd0;
+}
+
+.letter h2{
+  margin-top:40px;
+  color:#e91e63;
+}
+
+.open-btn{
+  margin-top:20px;
+  padding:10px 24px;
+  border:none;
+  border-radius:30px;
+  background:#e91e63;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.open-btn:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 15px #e91e63;
+}
+
+/* ===== MODAL ===== */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.4);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:0.4s;
+}
+
+.modal.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.modal-content{
+  background:#fff;
+  padding:30px;
+  border-radius:20px;
+  width:80%;
+  max-width:500px;
+  text-align:center;
+  animation: zoomIn 0.6s ease;
+}
+
+@keyframes zoomIn{
+  from{transform:scale(0.6); opacity:0;}
+  to{transform:scale(1); opacity:1;}
+}
+
+.message{
+  font-size:20px;
+  line-height:1.6;
+  animation: textGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes textGlow{
+  from{color:#333;}
+  to{color:#e91e63; text-shadow:0 0 10px #f48fb1;}
+}
+
+.close{
+  margin-top:20px;
+  padding:8px 20px;
+  border:none;
+  border-radius:20px;
+  background:#ddd;
+  cursor:pointer;
+}
+
+/* ===== AUDIO ===== */
+audio{
+  margin-top:15px;
+  width:100%;
+}
+</style>
+</head>
+<body>
+
+<!-- LÁ THƯ -->
+<div class="letter">
+  <h2>🌸 Thư Mùa Xuân 🌸</h2>
+  <button class="open-btn" onclick="openLetter()">Mở thư</button>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <div class="message">
+      Chúc các bạn năm mới nhiều sức khỏe, học tập tốt, tinh thần thoải mái và đạt được những mục tiêu mình mong muốn trong năm 2026 🎉
+    </div>
+
+    <!-- NHẠC -->
+    <audio id="music" controls>
+      <source src="https://www.tiktok.com/@tpht_1th06/video/7590227478271085842" type="audio/mpeg">
+    </audio>
+
+    <button class="close" onclick="closeLetter()">Đóng</button>
+  </div>
+</div>
+
+<script>
+/* ===== HOA RƠI ===== */
+const flowers = ["🌸","🌸","🌸","🌺"];
+for(let i=0;i<40;i++){
+  const f = document.createElement("div");
+  f.className = "sakura";
+  f.innerText = flowers[Math.floor(Math.random()*flowers.length)];
+  f.style.left = Math.random()*100 + "vw";
+  f.style.fontSize = 14 + Math.random()*20 + "px";
+  f.style.animationDuration = 8 + Math.random()*7 + "s";
+  document.body.appendChild(f);
+}
+
+/* ===== MỞ THƯ ===== */
+function openLetter(){
+  const modal = document.getElementById("modal");
+  modal.classList.add("show");
+  const music = document.getElementById("music");
+  music.play().catch(()=>{});
+}
+
+function closeLetter(){
+  const modal = document.getElementById("modal");
+  modal.classList.remove("show");
+}
+</script>
+
+</body>
+</html>
